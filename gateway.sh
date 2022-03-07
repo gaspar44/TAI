@@ -9,6 +9,6 @@ iptables -A FORWARD -i eth1 -o eth0 -m state --state RELATED,ESTABLISHED
 
 IPTABLES_CONFIG_FOR_RSYSLOG_FILE="/etc/rsyslog.conf"
 echo '$template ipTraffic,"%$day%/%$month%/%$year% %timegenerated:12:19:date-rfc3339%, %msg%\n"' >> ${IPTABLES_CONFIG_FOR_RSYSLOG_FILE}
-echi "kern.*; /var/log/kern.log; ipTraffic" >> ${IPTABLES_CONFIG_FOR_RSYSLOG_FILE}
+echo "kern.*; /var/log/kern.log; ipTraffic" >> ${IPTABLES_CONFIG_FOR_RSYSLOG_FILE}
 
 /etc/init.d/rsyslog start
