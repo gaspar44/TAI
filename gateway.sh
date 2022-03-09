@@ -12,3 +12,6 @@ echo '$template ipTraffic,"%$day%/%$month%/%$year% %timegenerated:12:19:date-rfc
 echo "kern.*; /var/log/kern.log; ipTraffic" >> ${IPTABLES_CONFIG_FOR_RSYSLOG_FILE}
 
 /etc/init.d/rsyslog start
+
+
+iptables -A INPUT -s 192.168.1.1/24 -j  DROP #opcional, bloquear traceroute de internet  al gateway
