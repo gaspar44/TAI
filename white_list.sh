@@ -8,3 +8,4 @@ iptables -A WHITE_LIST -j DROP
 
 iptables -A WHITE_LIST -p tcp --dport 22 -j WHITE_LIST
 #No deberia ser ?  --> iptables -A INPUT -p tcp --dport 22 -j WHITE_LIST
+iptables -A INPUT -p tcp --dport 80 -s 192.168.1.1/24 -j ACCEPT
