@@ -38,20 +38,38 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [[ -z ${eth0_weight} ]] && [[ -z ${eth1_weight} ]]; then
-    eth0_weight=50
-    eth1_weight=50
+    eth0_weight=5
+    eth1_weight=5
 
 elif [[ -z ${eth0_weight} ]] && [[ -n ${eth1_weight} ]]; then
-    eth0_weight=$((100 - ${eth1_weight}))
+    if [[ "${eth1_weight}" == *"."* ]]; then
+        eth1_weight=$(echo ${eth1_weight} | cut -d "." -f 1)
+    fi
+
+    eth0_weight=$((10 - ${eth1_weight}))
 
 elif [[ -z ${eth1_weight} ]] && [[ -n ${eth0_weight} ]]; then
-    eth1_weight=$((100 - ${eth0_weight}))
+    if [[ "${eth0_weight}" == *"."* ]]; then
+        eth0_weight=$(echo ${eth0_weight} | cut -d "." -f 1)
+    fi
+
+    eth1_weight=$((10 - ${eth0_weight}))
+
+else
+    if [[ "${eth0_weight}" == *"."* ]]; then
+        eth0_weight=$(echo ${eth0_weight} | cut -d "." -f 1)
+    fi
+
+    if [[ "${eth1_weight}" == *"."* ]]; then
+        eth1_weight=$(echo ${eth1_weight} | cut -d "." -f 1)
+    fi
+
 fi
 
 total_weight=$((${eth0_weight} + ${eth1_weight}))
 
-if [[ "${total_weight}" -ne "100" ]]; then
-    echo "ERROR: values must sum 100"
+if [[ "${total_weight}" -ne "10 " ]]; then
+    echo "ERROR: values must sum 10"
     exit 1
 fi
 
