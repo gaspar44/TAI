@@ -3,7 +3,7 @@
 iptables -t mangle -A PREROUTING -s 192.168.2/24 -j LOG --log-prefix "forwarding from /24"
 ### NAT: using eth1's IO
 iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE
-iptables -t nat -A POSTROUTING -o eth2 -j MASQUERADE
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
 
 ## FORWARD
 iptables -A FORWARD -i eth2 -o eth1
