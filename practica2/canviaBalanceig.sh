@@ -2,8 +2,8 @@
 
 function usage() {
     echo    "usage:  "
-    echo    "   --eth0-load VALUE. Must be a integer between 0 - 100. (Default: 50)"
-    echo    "   --eth1-load VALUE. Must be a integer between 0 - 100. (Default: 50)"
+    echo    "   --eth0-load VALUE. Must be a integer between 0 - 10. (Default: 5)"
+    echo    "   --eth1-load VALUE. Must be a integer between 0 - 10. (Default: 5)"
     echo    "   --help. Shows this help and exit"
 }
 
