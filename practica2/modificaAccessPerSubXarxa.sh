@@ -1,13 +1,12 @@
 #!/bin/bash
-
 function usage() {
     echo    "usage:  "
-    echo    "   --enable [SUBNET_RANGE_CIDR_FORMAT] enables Internet access to the specified net"
-    echo    "   --disable [SUBNET_RANGE_CIDR_FORMAT] disables Internet access to the specified net"
+    echo    "   --enable [Departament_number] enables Internet access to the specified net. Takes a value between 1 - 7"
+    echo    "   --disable [Departament_number] disables Internet access to the specified net. Takes a value between 1 - 7"
     echo    "   --help. Shows this help and exit"
 }
 
-net=
+net_value=
 enable=
 
 if [[ $# -lt 2 ]]; then
@@ -20,13 +19,13 @@ while [[ $# -gt 0 ]]; do
     case $1 in 
     --enable)
         enable=true
-        net=$2
+        net_value=$2
         shift
         shift
         ;;
     --disable)
         enable=false
-        net=$2
+        net_value=$2
         shift
         shift
         ;;
@@ -40,6 +39,43 @@ while [[ $# -gt 0 ]]; do
         ;;
     esac
 done
+
+if [[ -z ${net_value} ]]; then
+    echo "- A number from 1 - 7 must be passed"
+    usage
+    exit 1
+elif [[ ${net_value} -lt 1 ]] || [[ ${net_value} -gt 7 ]]; then
+    echo "- A number from 1 - 7 must be passed"
+    usage
+    exit 1
+fi
+
+case $net_value in
+    1)
+        net="192.168.2.32/27"
+        ;;
+    2)
+        net="192.168.2.64/27"
+        ;;
+    3)
+        net="192.168.2.96/27"
+        ;;
+    4)
+        net="192.168.2.128/27"
+        ;;
+    5)
+        net="192.168.2.160/27"
+        ;;
+    6)
+        net="192.168.2.192/27"
+        ;;
+    7)
+        net="192.168.2.224/27"
+        ;;
+    *)
+        break
+        ;;
+esac
 
 iptables -C FORWARD -i eth2 -o eth1 &> /dev/null
 
