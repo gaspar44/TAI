@@ -6,11 +6,13 @@ function setup_tc() {
 
     tc qdisc del dev ${dev} root handle 1: prio bands ${queue_to_create} &> /dev/null
     tc qdisc add dev ${dev} root handle 1: prio bands ${queue_to_create}
-
+    echo "- Creating default bitbucket for dev: ${dev}"
     for (( i=1; i<=${queue_to_create}; i++ ))
     do
         tc qdisc del dev ${dev} parent 1:${i} handle ${i}0:0 tbf rate 20kbit latency 50ms burst 10k &> /dev/null
         tc qdisc add dev ${dev} parent 1:${i} handle ${i}0:0 tbf rate 20kbit latency 50ms burst 10k
+        tc filter del dev eth0 parent 1: protocol ip prio ${i} route from ${i} flowid 1:${i} &> /dev/null
+        tc filter add dev eth0 parent 1: protocol ip prio ${i} route from ${i} flowid 1:${i}
     done
 }
 
@@ -53,6 +55,7 @@ function setup_routing() {
 }
 
 queue_to_create=8
+setup_routing ${queue_to_create}
 setup_tc "eth0" ${queue_to_create}
 setup_tc "eth1" ${queue_to_create}
-setup_routing ${queue_to_create}
+
