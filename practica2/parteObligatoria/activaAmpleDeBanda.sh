@@ -11,8 +11,8 @@ function setup_tc() {
     do
         tc qdisc del dev ${dev} parent 1:${i} handle ${i}0:0 tbf rate 20kbit latency 50ms burst 10k &> /dev/null
         tc qdisc add dev ${dev} parent 1:${i} handle ${i}0:0 tbf rate 20kbit latency 50ms burst 10k
-        tc filter del dev eth0 parent 1: protocol ip prio ${i} route from ${i} flowid 1:${i} &> /dev/null
-        tc filter add dev eth0 parent 1: protocol ip prio ${i} route from ${i} flowid 1:${i}
+        tc filter del dev ${dev} parent 1: protocol ip prio ${i} route from ${i} flowid 1:${i} &> /dev/null
+        tc filter add dev ${dev} parent 1: protocol ip prio ${i} route from ${i} flowid 1:${i}
     done
 }
 
