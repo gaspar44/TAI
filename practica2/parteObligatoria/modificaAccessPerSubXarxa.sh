@@ -34,6 +34,7 @@ while [[ $# -gt 0 ]]; do
         exit 0
         ;;
     *)
+        echo "- Unknown option: $@"
         usage
         exit 1
         ;;
