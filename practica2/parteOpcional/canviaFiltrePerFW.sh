@@ -18,10 +18,10 @@ ip route add table col1.out via 192.168.0.2/24 dev eth0
 ip route add table col2.out via 192.168.1.2/24 dev eth1
 
 //HAY QUE CAMBIAR LAS SUBNETS CUANDO SEPAMOS CUALES SON LAS CORRECTAS.
-iptables -A OUTPUT -t mangle -s 192.168.2.34/27 -j MARK --set-mark 1
-iptables -A OUTPUT -t mangle -s 192.168.2.34/27 -j MARK --set-mark 2
-iptables -A OUTPUT -t mangle -s 192.168.2.34/27 -j MARK --set-mark 3
-iptables -A OUTPUT -t mangle -s 192.168.2.34/27 -j MARK --set-mark 4
-iptables -A OUTPUT -t mangle -s 192.168.2.34/27 -j MARK --set-mark 5
-iptables -A OUTPUT -t mangle -s 192.168.2.34/27 -j MARK --set-mark 6
-iptables -A OUTPUT -t mangle -s 192.168.2.34/27 -j MARK --set-mark 7
+iptables -A OUTPUT -t mangle -s 192.168.2.33/27 -j MARK --set-mark 1
+iptables -A OUTPUT -t mangle -s 192.168.2.65/27 -j MARK --set-mark 2
+iptables -A OUTPUT -t mangle -s 192.168.2.97/27 -j MARK --set-mark 3
+iptables -A OUTPUT -t mangle -s 192.168.2.129/27 -j MARK --set-mark 4
+iptables -A OUTPUT -t mangle -s 192.168.2.161/27 -j MARK --set-mark 5
+iptables -A OUTPUT -t mangle -s 192.168.2.193/27 -j MARK --set-mark 6
+iptables -A OUTPUT -t mangle -s 192.168.2.225/27 -j MARK --set-mark 7
