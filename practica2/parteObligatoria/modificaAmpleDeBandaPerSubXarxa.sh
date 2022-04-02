@@ -5,15 +5,12 @@ function usage() {
     echo    "   --new-ratio: new speed ratio in kbits. (Default: 20)"
     echo    "   --latency. Changes the waiting time in ms to get a token. (Default: 50ms)"
     echo    "   --burst. Changes the max output speed in Kbytes.(Default 10k)"
-    echo    "   --interface. Which interface the change will be effective. (Default: eth0)"
-
     echo    "   --help. Shows this help and exit"
 }
 
 ratio=20
 latency=50
 burst=10
-interface=eth0
 
 while [[ $# -gt 0 ]]; do
     case $1 in 
@@ -37,11 +34,6 @@ while [[ $# -gt 0 ]]; do
         shift
         shift
         ;;
-    --interface)
-        interface=$2
-        shift
-        shift
-        ;;
     --help)
         usage
         exit 0
@@ -54,7 +46,8 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-ip addr show ${interface} &> /dev/null
+ip addr show eth0 &> /dev/null
+ip addr show eth1 &> /dev/null
 
 if [[ $? == 1 ]]; then
     echo "- Unknown interface: ${interface}"
@@ -71,6 +64,16 @@ elif [[ ${net_value} -lt 1 ]] || [[ ${net_value} -gt 7 ]]; then
     exit 1
 fi
 
-tc qdisc change dev ${interface} parent 1:${net_value} tbf rate ${ratio}kbit latency ${latency}ms burst ${burst}k
+eth1_ip="192.168.1.1"
+eth0_ip="192.168.0.1"
+
+porcentaje0=0.$(ip r s | grep ${eth0_ip} | awk ' { print $7 } ')
+porcentaje1=0.$(ip r s | grep ${eth1_ip} | awk ' { print $7 } ')
+
+new_ratio0=$(echo "$ratio*$_porcentaje0" | bc)
+new_ratio1=$(echo "$ratio*$_porcentaje1" | bc)
+
+tc qdisc change dev eth0 parent 1:${net_value} tbf rate ${new_ratio0}kbit latency ${latency}ms burst ${burst}k
+tc qdisc change dev eth1 parent 1:${net_value} tbf rate ${new_ratio1}kbit latency ${latency}ms burst ${burst}k
 
 #Prueba  wget mirror.tedra.es/CentOS/7.9.2009/isos/x86_64/CentOS-7-x86_64-DVD-2009.iso
