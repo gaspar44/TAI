@@ -14,13 +14,13 @@ set grid
 set xlabel "Beta [0:1]"
 set ylabel "Delivery Ratio ([0:1])"
 set output "prophetdelivery.eps"
-f(x) = XX
+f(x) = 0.3086
 plot  "prophetdelivery.data"    using 1:2 title 'Prophet' ls 5 w points, f(x) title 'Epidemic' w lines
 
 set xlabel "Beta [0:1]"
 set ylabel "Latency (seconds)"
 set output "prophetlatency.eps"
-g(x) = YY
+g(x) = 817.5529
 plot  "prophetlatency.data"    using 1:2 title 'Prophet' ls 5 w points, g(x) title 'Epidemic' w lines
 
 
